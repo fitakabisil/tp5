@@ -1,14 +1,15 @@
 import random
 import arcade
 import game_state
-# import arcade.gui
+import arcade.gui
 from attack_animation import AttackType, AttackAnimation
 from game_state import GameState
+import time
 
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Roche, papier, ciseaux"
-DEFAULT_LINE_HEIGHT = 45  # The default line height for text.
+DEFAULT_LINE_HEIGHT = 45
 
 
 class MyGame(arcade.Window):
@@ -34,9 +35,9 @@ class MyGame(arcade.Window):
         self.player = None
         self.computer = None
         self.players = None
-        self.rock = None
-        self.paper = None
-        self.scissors = None
+        self.rock = AttackAnimation(AttackType.ROCK)
+        self.paper = AttackAnimation(AttackType.PAPER)
+        self.scissors = AttackAnimation(AttackType.SCISSORS)
         self.player_score = 0
         self.computer_score = 0
         self.player_attack_type = {}
@@ -117,38 +118,34 @@ class MyGame(arcade.Window):
         # afficher le résultat de la partie si l'ordinateur a joué (ROUND_DONE)
         pass
 
-    def on_update(self, delta_time: float = 1 / 60):
-        # Update the animation.
-        self.current_texture += 1
-        if self.current_texture < len(self.textures):
-            self.set_texture(self.current_texture)
-        else:
-            self.current_texture = 0
-            self.set_texture(self.current_texture)
+    def on_update(self, delta_time):
+        """
+        Toute la logique pour déplacer les objets de votre jeu et de
+        simuler sa logique vont ici. Normalement, c'est ici que
+        vous allez invoquer la méthode "update()" sur vos listes de sprites.
+        Paramètre :
+            - delta_time : le nombre de millisecondes depuis le dernier update.
+        """
+        # vérifier si le jeu est actif (ROUND_ACTIVE) et continuer l'animation des attaques
+        # si le joueur a choisi une attaque, générer une attaque de l'ordinateur et valider la victoire
+        # changer l'état de jeu si nécessaire (GAME_OVER)
+        pass
 
     def on_key_press(self, key, key_modifiers):
-        """
-       Cette méthode est invoquée à chaque fois que l'usager tape une touche
-       sur le clavier.
-       Paramètres :
-           - key: la touche enfoncée
-           - key_modifiers : est-ce que l'usager appuie sur "shift" ou "ctrl" ?
 
-       Pour connaître la liste des touches possibles:
-       http://arcade.academy/arcade.key.html
-       """
         if self.game_state == game_state.GameState.NOT_STARTED and self.key == arcade.key.SPACE:
             self.game_state = game_state.GameState.ROUND_ACTIVE
 
     def reset_round(self):
-        """
-       Réinitialiser les variables qui ont été modifiées
-       """
-        # self.computer_attack_type = -1
-        # self.player_attack_chosen = False
-        # self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
-        # self.player_won_round = False
-        # self.draw_round = False
+
+        if game_state == game_state.GameState.ROUND_DONE:
+            time.sleep(3.0)
+
+            self.computer_attack_type = -1
+            self.player_attack_chosen = False
+            self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
+            self.player_won_round = False
+            self.draw_round = False
 
         pass
 
