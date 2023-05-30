@@ -8,7 +8,7 @@ import time
 
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Roche, papier, ciseaux"
+SCREEN_TITLE = "Roche, papier, ciseaux!"
 DEFAULT_LINE_HEIGHT = 45
 
 
@@ -81,7 +81,11 @@ class MyGame(arcade.Window):
         """
        Montrer les scores du joueur et de l'ordinateur
        """
-        pass
+        arcade.draw_text(("le pointage du joueur est:", self.player_score), start_x=40, start_y=50,
+                         color=arcade.color.AIR_FORCE_BLUE, font_size=17, width=500, align='left')
+
+        arcade.draw_text(("le pointage de l'ordinateur est:", self.computer_score), start_x=615, start_y=50,
+                         color=arcade.color.AIR_FORCE_BLUE, font_size=17, width=500, align='left')
 
     def draw_instructions(self):
         """
@@ -110,7 +114,7 @@ class MyGame(arcade.Window):
                          align="center")
 
         self.draw_instructions()
-        self.players.draw()
+        #self.players.draw()
         self.draw_possible_attack()
         self.draw_scores()
 
