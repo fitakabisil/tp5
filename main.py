@@ -30,6 +30,10 @@ class MyGame(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
+        self.computers = None
+        self.sprit_list = arcade.SpriteList()
+        self.player_y = None
+        self.player_x = None
         arcade.set_background_color(arcade.color.BLACK_OLIVE)
 
         self.player = None
@@ -52,8 +56,32 @@ class MyGame(arcade.Window):
        Configurer les variables de votre jeu ici. Il faut appeler la méthode une nouvelle
        fois si vous recommencer une nouvelle partie.
        """
-        # C'est ici que vous allez créer vos listes de sprites et vos sprites.
-        # Prenez note que vous devriez attribuer une valeur à tous les attributs créés dans __init__
+        self.player = arcade.Sprite("assets/faceBeard.png", 1.5)
+        self.player.center_x = 200
+        self.player.center_y = 260
+        self.players = arcade.SpriteList()
+        self.players.append(self.player)
+        self.computer = arcade.Sprite("assets/compy.png", 1.5)
+        self.computer.center_x = 800
+        self.computer.center_y = 260
+        self.computers = arcade.SpriteList()
+        self.computers.append(self.computer)
+        self.rock = AttackAnimation(AttackType.ROCK)
+        self.rock.center_x = 160
+        self.rock.center_y = 200
+        self.rocks = arcade.SpriteList()
+        self.rocks.append(self.rock)
+        self.paper = AttackAnimation(AttackType.PAPER)
+        self.scissors = AttackAnimation(AttackType.SCISSORS)
+        self.player_score = 0
+        self.computer_score = 0
+        self.player_attack_type = {}
+        self.computer_attack_type = None
+        self.player_attack_chosen = False
+        self.player_won_round = None
+        self.draw_round = None
+        self.game_state = GameState.NOT_STARTED
+
 
         pass
 
@@ -69,13 +97,21 @@ class MyGame(arcade.Window):
        (si aucune attaque n'a été sélectionnée, il faut dessiner les trois possibilités)
        (si une attaque a été sélectionnée, il faut dessiner cette attaque)
        """
-        pass
+        if not self.player_attack_chosen:
+            #player_rock = arcade.sprite()
+            pass
 
     def draw_computer_attack(self):
         """
        Méthode utilisée pour dessiner les possibilités d'attaque de l'ordinateur
        """
-        pass
+        pc_attack = random.randint(0, 2)
+        if pc_attack == 0:
+            self.computer_attack_type = AttackType.ROCK
+        elif pc_attack == 1:
+            self.computer_attack_type = AttackType.PAPER
+        else:
+            self.computer_attack_type = AttackType.SCISSORS
 
     def draw_scores(self):
         """
@@ -113,8 +149,11 @@ class MyGame(arcade.Window):
                          width=SCREEN_WIDTH,
                          align="center")
 
+
         self.draw_instructions()
-        #self.players.draw()
+        self.players.draw()
+        self.computers.draw()
+        self.rocks.draw()
         self.draw_possible_attack()
         self.draw_scores()
 
